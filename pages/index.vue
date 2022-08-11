@@ -1,83 +1,81 @@
 <template>
   <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
-        <NuxtLogo />
-        <VuetifyLogo />
-      </v-card>
-      <v-card>
-        <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
-        </v-card-title>
-        <v-card-text>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications.</p>
-          <p>
-            For more information on Vuetify, check out the <a
-              href="https://vuetifyjs.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              documentation
-            </a>.
-          </p>
-          <p>
-            If you have questions, please join the official <a
-              href="https://chat.vuetifyjs.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="chat"
-            >
-              discord
-            </a>.
-          </p>
-          <p>
-            Find a bug? Report it on the github <a
-              href="https://github.com/vuetifyjs/vuetify/issues"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="contribute"
-            >
-              issue board
-            </a>.
-          </p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
-          <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
-          </div>
-          <hr class="my-3">
-          <a
-            href="https://nuxtjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt Documentation
-          </a>
-          <br>
-          <a
-            href="https://github.com/nuxt/nuxt.js"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Nuxt GitHub
-          </a>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/inspire"
-          >
-            Continue
-          </v-btn>
-        </v-card-actions>
+    <v-col cols="12" sm="11" md="11">
+      <v-card class="pa-5 d-flex justify-center outlined tile">
+        <v-row justify="center" align="center">
+          <!-- lists start  -->
+          <v-col id="lists-section" cols="12" sm="12" md="3">
+            <v-form class="px-3">
+              <v-text-field
+                label="Add new list"
+                prepend-icon="mdi-plus"
+              ></v-text-field>
+            </v-form>
+            <list-component v-for="list in lists" :list-obj="list.ki">
+            </list-component>
+          </v-col>
+          <v-spacer></v-spacer>
+          <!-- items start  -->
+          <v-col id="items-section" cols="12" sm="12" md="8">
+            <v-form class="px-3">
+              <v-text-field
+                label="Add new item"
+                prepend-icon="mdi-plus"
+              ></v-text-field>
+            </v-form>
+            <item-component v-for="item in items" :item-obj="item.i">
+            </item-component
+          ></v-col>
+        </v-row>
       </v-card>
     </v-col>
   </v-row>
 </template>
-
 <script>
 export default {
-  name: 'IndexPage'
-}
+  props: ["foo"],
+  data() {
+    return {
+      lists: [
+        {
+          ki: "1sssss",
+        },
+        {
+          ki: "2sssss",
+        },
+        {
+          ki: "3sssss",
+        },
+        {
+          ki: "4sssss",
+        },
+      ],
+      items: [
+        {
+          i: "1sssss",
+        },
+        {
+          i: "2sssss",
+        },
+        {
+          i: "3sssss",
+        },
+        {
+          i: "4sssss",
+        },
+      ],
+    };
+  },
+};
 </script>
+
+<style>
+#lists-section {
+  background-color: aqua;
+  min-height: 300px;
+}
+#items-section {
+  background-color: rgb(255, 0, 200);
+  min-height: 300px;
+}
+</style>
