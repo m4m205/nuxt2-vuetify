@@ -1,12 +1,12 @@
 <template>
-  <v-card class="pa-2 mb-2">
+  <v-card class="pa-2 mb-2" shaped>
     <p>{{ itemObj.name }}</p>
     <p>completed: {{ itemObj.completed }}</p>
 
     <v-btn icon @click.stop="">
       <v-icon color="green">mdi-check-circle</v-icon>
     </v-btn>
-    <v-btn icon @click.stop="$emit.deleteItem">
+    <v-btn icon @click.stop="$emit('delete-item', itemObj.id)">
       <v-icon color="red">mdi-delete</v-icon>
     </v-btn>
     <v-btn icon @click.stop="">

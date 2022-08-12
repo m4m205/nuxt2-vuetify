@@ -1,14 +1,25 @@
 <template>
-  <v-card class="pa-3 mb-2">
+  <v-alert
+    :border="isSelected ? 'left' : ''"
+    colored-border
+    color="blue"
+    elevation="5"
+    class="list-card"
+    @click=""
+  >
     <p>{{ listObj.name }}</p>
-    <!-- <p>ID: {{ listObj.id }}</p> -->
     <v-btn icon @click.stop="$emit('delete-list', listObj.id)">
       <v-icon color="red">mdi-delete</v-icon>
     </v-btn>
-  </v-card>
+  </v-alert>
 </template>
 <script>
 export default {
-  props: ["list-obj"],
+  props: ["list-obj", "isSelected"],
 };
 </script>
+<style>
+.list-card:hover {
+  cursor: pointer;
+}
+</style>
