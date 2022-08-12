@@ -7,14 +7,14 @@
         class="pa-5 d-flex justify-center outlined tile"
       >
         <v-row justify="center" align="center">
-          <v-col cols="12" sm="12" md="3">
+          <v-col cols="12" xs="12" sm="3" md="3">
             <v-skeleton-loader
               v-bind="attrs"
               type="list-item-avatar, divider, card-heading, card-heading, card-heading"
             ></v-skeleton-loader>
           </v-col>
           <v-spacer></v-spacer>
-          <v-col cols="12" sm="12" md="8">
+          <v-col cols="12" xs="12" sm="8" md="8">
             <v-skeleton-loader
               v-bind="attrs"
               type="list-item-avatar, divider, card-heading, card-heading, card-heading"
@@ -23,7 +23,10 @@
         </v-row>
       </v-card>
       <!-- error message -->
-      <v-card v-else-if="true" class="pa-5 d-flex justify-center outlined tile">
+      <v-card
+        v-else-if="$fetchState.error"
+        class="pa-5 d-flex justify-center outlined tile"
+      >
         <v-row justify="center" align="center">
           <v-col cols="12" sm="12" md="12"
             ><v-alert
@@ -42,7 +45,7 @@
       <v-card v-else class="pa-5 d-flex justify-center outlined tile">
         <v-row justify="center" align="center">
           <!-- lists start  -->
-          <v-col id="lists-section" cols="12" sm="12" md="3">
+          <v-col id="lists-section" cols="12" xs="12" sm="3" md="3">
             <v-form class="px-3">
               <v-text-field
                 label="Add new list"
@@ -54,7 +57,7 @@
           </v-col>
           <v-spacer></v-spacer>
           <!-- items start  -->
-          <v-col id="items-section" cols="12" sm="12" md="8">
+          <v-col id="items-section" cols="12" xs="12" sm="8" md="8">
             <v-form class="px-3">
               <v-text-field
                 label="Add new item"
@@ -81,10 +84,10 @@ export default {
     };
   },
   async fetch() {
-    // const res = await this.$axios.$get(this.baseURL);
-    // this.lists = res.data;
-    // this.selectedListId = res.data[0].id;
-    // this.fetchItems(this.selectedListId);
+    const res = await this.$axios.$get(this.baseURL);
+    this.lists = res.data;
+    this.selectedListId = res.data[0].id;
+    this.fetchItems(this.selectedListId);
   },
   fetchOnServer: false,
   fetchKey: "lists-data",
