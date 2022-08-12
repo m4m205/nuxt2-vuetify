@@ -1,7 +1,45 @@
 <template>
   <v-row justify="center" align="center">
     <v-col cols="12" sm="11" md="11">
-      <v-card class="pa-5 d-flex justify-center outlined tile">
+      <!-- loading view  -->
+      <v-card
+        v-if="$fetchState.pending"
+        class="pa-5 d-flex justify-center outlined tile"
+      >
+        <v-row justify="center" align="center">
+          <v-col cols="12" sm="12" md="3">
+            <v-skeleton-loader
+              v-bind="attrs"
+              type="list-item-avatar, divider, card-heading, card-heading, card-heading"
+            ></v-skeleton-loader>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="12" sm="12" md="8">
+            <v-skeleton-loader
+              v-bind="attrs"
+              type="list-item-avatar, divider, card-heading, card-heading, card-heading"
+            ></v-skeleton-loader>
+          </v-col>
+        </v-row>
+      </v-card>
+      <!-- error message -->
+      <v-card v-else-if="true" class="pa-5 d-flex justify-center outlined tile">
+        <v-row justify="center" align="center">
+          <v-col cols="12" sm="12" md="12"
+            ><v-alert
+              dense
+              prominent
+              type="error"
+              border="top"
+              color="pink darken-1"
+              class="mt-3"
+              >An error happened, sorry for inconvenience.</v-alert
+            >
+          </v-col>
+        </v-row>
+      </v-card>
+      <!-- succuss view -->
+      <v-card v-else class="pa-5 d-flex justify-center outlined tile">
         <v-row justify="center" align="center">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" sm="12" md="3">
@@ -43,10 +81,10 @@ export default {
     };
   },
   async fetch() {
-    const res = await this.$axios.$get(this.baseURL);
-    this.lists = res.data;
-    this.selectedListId = res.data[0].id;
-    this.fetchItems(this.selectedListId);
+    // const res = await this.$axios.$get(this.baseURL);
+    // this.lists = res.data;
+    // this.selectedListId = res.data[0].id;
+    // this.fetchItems(this.selectedListId);
   },
   fetchOnServer: false,
   fetchKey: "lists-data",
