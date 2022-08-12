@@ -46,23 +46,38 @@
         <v-row justify="center" align="center">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" xs="12" sm="3" md="3">
-            <v-form class="px-3">
+            <v-form class="mb-7">
               <v-text-field
                 label="Add new list"
                 prepend-icon="mdi-plus"
-              ></v-text-field>
+                append-icon="mdi-check"
+                hide-details="auto"
+                @click:append="createList"
+                v-model.trim="listInput"
+                :error-messages="[]"
+                >Create list</v-text-field
+              >
+              {{ listInput }}
             </v-form>
-            <list-component v-for="list in lists" :list-obj="list">
+            <list-component
+              v-for="list in lists"
+              :list-obj="list"
+              @delete-list="deleteList"
+            >
             </list-component>
           </v-col>
           <v-spacer></v-spacer>
           <!-- items start  -->
           <v-col id="items-section" cols="12" xs="12" sm="8" md="8">
-            <v-form class="px-3">
+            <v-form class="mb-7">
               <v-text-field
                 label="Add new item"
                 prepend-icon="mdi-plus"
-              ></v-text-field>
+                hide-details="auto"
+                v-model.trim="itemInput"
+                :error-messages="[]"
+                >Create to-do here</v-text-field
+              >
             </v-form>
             <item-component v-for="item in items" :item-obj="item">
             </item-component>
@@ -81,6 +96,8 @@ export default {
       lists: [],
       items: [],
       selectedListId: null,
+      listInput: "",
+      itemInput: "",
     };
   },
   async fetch() {
@@ -95,6 +112,25 @@ export default {
     async fetchItems(id) {
       const res = await this.$axios.$get(`${this.baseURL}/${id}`);
       this.items = res.data.items;
+    },
+    async deleteList(id) {
+      try {
+        await this.$axios.$delete(`${this.baseURL}/${id}`);
+        this.$fetch();
+      } catch (e) {
+        console.log("error from delete list", e);
+      }
+    },
+    async createList() {
+      try {
+        await this.$axios.$post(this.baseURL, {
+          name: this.listInput,
+        });
+        this.listInput = "";
+        this.$fetch();
+      } catch (e) {
+        console.log("error from create list", e);
+      }
     },
   },
 };
