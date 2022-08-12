@@ -101,5 +101,8 @@ export default {
       title: "Vuetify.js",
     };
   },
+  created() {
+    this.$vuetify.theme.dark = false;
+  },
 };
 </script>
