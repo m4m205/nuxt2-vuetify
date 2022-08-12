@@ -1,12 +1,12 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="start">
     <v-col cols="12" sm="11" md="11">
       <!-- loading view  -->
       <v-card
         v-if="$fetchState.pending && !lists.length"
         class="pa-5 d-flex justify-center outlined tile"
       >
-        <v-row justify="center" align="center">
+        <v-row justify="center" align="start">
           <v-col cols="12" xs="12" sm="4" md="4">
             <v-skeleton-loader
               v-bind="attrs"
@@ -26,7 +26,7 @@
         v-else-if="$fetchState.error"
         class="pa-5 d-flex justify-center outlined tile"
       >
-        <v-row justify="center" align="center">
+        <v-row justify="center" align="start">
           <v-col cols="12" sm="12" md="12"
             ><v-alert
               dense
@@ -42,7 +42,7 @@
       </v-card>
       <!-- succuss view -->
       <v-card v-else class="pa-5 d-flex justify-center outlined tile">
-        <v-row justify="center" align="center">
+        <v-row justify="center" align="start">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" xs="12" sm="4" md="4">
             <v-form class="mb-7">
