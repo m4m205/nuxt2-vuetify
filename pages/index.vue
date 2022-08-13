@@ -60,7 +60,6 @@
             </v-btn>
           </template>
         </v-snackbar>
-
         <v-row justify="center" align="start">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" xs="12" sm="4" md="4">
@@ -81,7 +80,7 @@
               v-for="list in lists"
               :list-obj="list"
               :isSelected="list.id === selectedListId"
-              @delete-list="deleteList"
+              @delete-list="PrepareDeleteList"
               @click.native="handleListClick(list.id)"
             >
             </list-component>
@@ -103,13 +102,71 @@
             <item-component
               v-for="item in items"
               :item-obj="item"
-              @delete-item="deleteItem"
+              @delete-item="PrepareDeleteItem"
             >
             </item-component>
           </v-col>
         </v-row>
       </v-card>
     </v-col>
+    <v-row justify="center">
+      <v-dialog v-model="showItemOverlay" persistent max-width="290">
+        <v-card>
+          <v-card-title class="text-h5"> Confirmation </v-card-title>
+          <v-card-text
+            >Are you sure you want to permanently delete this item?</v-card-text
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="
+                () => ((showItemOverlay = false), (itemToBeDeletedId = null))
+              "
+            >
+              No
+            </v-btn>
+            <v-btn
+              color="red darken-1"
+              text
+              @click="[deleteItem(), (showItemOverlay = false)]"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
+    <v-row justify="center">
+      <v-dialog v-model="showListOverlay" persistent max-width="290">
+        <v-card>
+          <v-card-title class="text-h5"> Confirmation </v-card-title>
+          <v-card-text
+            >Are you sure you want to permanently delete this list?</v-card-text
+          >
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="blue darken-1"
+              text
+              @click="
+                () => ((showListOverlay = false), (listToBeDeletedId = null))
+              "
+            >
+              No
+            </v-btn>
+            <v-btn
+              color="red darken-1"
+              text
+              @click="[deleteList(), (showListOverlay = false)]"
+            >
+              Yes
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </v-row>
 </template>
 <script>
@@ -121,9 +178,13 @@ export default {
       lists: [],
       items: [],
       selectedListId: null,
+      litsToBeDeletedId: null,
+      itemToBeDeletedId: null,
       listInput: "",
       itemInput: "",
       showSnackbar: false,
+      showItemOverlay: false,
+      showListOverlay: false,
     };
   },
   async fetch() {
@@ -159,29 +220,43 @@ export default {
           name: this.itemInput,
         });
         this.itemInput = "";
-        this.showSnackbar = true;
+        this.showSnackbar = false;
         this.$fetch();
       } catch (e) {
         console.log("error from create item", e);
       }
     },
-    async deleteList(id) {
+    async deleteList() {
       try {
-        await this.$axios.$delete(`${this.baseURL}/${id}`);
+        await this.$axios.$delete(`${this.baseURL}/${this.listToBeDeletedId}`);
+        this.selectedListId = null;
         this.$fetch();
       } catch (e) {
-        console.log("error from delete list", e);
+        console.log("error from delete list API", e);
+      } finally {
+        this.listToBeDeletedId = null;
       }
     },
-    async deleteItem(id) {
+    async deleteItem() {
+      if (!this.itemToBeDeletedId) return new Error("error in deleting item");
       try {
         await this.$axios.$delete(
-          `${this.baseURL}/${this.selectedListId}/${id}`
+          `${this.baseURL}/${this.selectedListId}/${this.itemToBeDeletedId}`
         );
-        this.$fetch();
+        this.fetchItems(this.selectedListId);
       } catch (e) {
-        console.log("error from delete list", e);
+        console.log("error from delete error API", e);
+      } finally {
+        this.itemToBeDeletedId = null;
       }
+    },
+    PrepareDeleteItem(id) {
+      this.itemToBeDeletedId = id;
+      this.showItemOverlay = true;
+    },
+    PrepareDeleteList(id) {
+      this.listToBeDeletedId = id;
+      this.showListOverlay = true;
     },
     handleListClick(id) {
       this.selectedListId = id;
