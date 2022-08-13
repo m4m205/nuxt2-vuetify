@@ -16,6 +16,9 @@
 </template>
 <script>
 export default {
-  props: ["item-obj"],
+  props: {
+    "item-obj": Object,
+    isSelected: Boolean,
+  },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <v-alert
-    :border="isSelected ? 'left' : ''"
+    :border="isSelected ? 'left' : undefined"
     colored-border
     color="blue"
     elevation="5"
@@ -15,7 +15,10 @@
 </template>
 <script>
 export default {
-  props: ["list-obj", "isSelected"],
+  props: {
+    "list-obj": Object,
+    isSelected: Boolean,
+  },
 };
 </script>
 <style>

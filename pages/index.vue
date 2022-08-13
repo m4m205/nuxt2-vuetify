@@ -42,6 +42,25 @@
       </v-card>
       <!-- succuss view -->
       <v-card v-else class="pa-5 d-flex justify-center outlined tile">
+        <v-snackbar
+          v-model="showSnackbar"
+          timeout="5000"
+          color="green accent-4"
+          elevation="24"
+        >
+          Successfully created!
+          <template v-slot:action="{ attrs }">
+            <v-btn
+              color="white"
+              text
+              v-bind="attrs"
+              @click="showSnackbar = false"
+            >
+              Close
+            </v-btn>
+          </template>
+        </v-snackbar>
+
         <v-row justify="center" align="start">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" xs="12" sm="4" md="4">
@@ -104,6 +123,7 @@ export default {
       selectedListId: null,
       listInput: "",
       itemInput: "",
+      showSnackbar: false,
     };
   },
   async fetch() {
@@ -127,6 +147,7 @@ export default {
           name: this.listInput,
         });
         this.listInput = "";
+        this.showSnackbar = true;
         this.$fetch();
       } catch (e) {
         console.log("error from create list", e);
@@ -138,6 +159,7 @@ export default {
           name: this.itemInput,
         });
         this.itemInput = "";
+        this.showSnackbar = true;
         this.$fetch();
       } catch (e) {
         console.log("error from create item", e);
