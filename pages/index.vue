@@ -63,19 +63,17 @@
         <v-row justify="center" align="start">
           <!-- lists start  -->
           <v-col id="lists-section" cols="12" xs="12" sm="4" md="4">
-            <v-form class="mb-7">
-              <v-text-field
-                label="Add new list"
-                prepend-icon="mdi-plus"
-                append-icon="mdi-check"
-                hide-details="auto"
-                @click:append="createList"
-                v-model.trim="listInput"
-                :error-messages="[]"
-                >Create list</v-text-field
-              >
-              {{ listInput }}
-            </v-form>
+            <!-- <v-form v-model="formInput" class="mb-7"> -->
+            <v-text-field
+              class="mb-7"
+              label="Add new list"
+              prepend-icon="mdi-plus"
+              hide-details="auto"
+              v-model.trim="listInput"
+              :error-messages="[]"
+              v-on:keyup.enter="createList"
+            ></v-text-field>
+            <!-- </v-form> -->
             <list-component
               v-for="list in lists"
               :list-obj="list"
@@ -87,18 +85,17 @@
           </v-col>
           <!-- items start  -->
           <v-col id="items-section" cols="12" xs="12" sm="8" md="8">
-            <v-form class="mb-7">
-              <v-text-field
-                label="Add new item"
-                prepend-icon="mdi-plus"
-                append-icon="mdi-check"
-                hide-details="auto"
-                @click:append="createItem"
-                v-model.trim="itemInput"
-                :error-messages="[]"
-                >Create to-do here</v-text-field
-              >
-            </v-form>
+            <!-- <v-form class="mb-7"> -->
+            <v-text-field
+              class="mb-7"
+              label="Add new item"
+              prepend-icon="mdi-plus"
+              hide-details="auto"
+              v-model.trim="itemInput"
+              :error-messages="[]"
+              v-on:keyup.enter="createItem"
+            ></v-text-field>
+            <!-- </v-form> -->
             <div v-if="items.length">
               <item-component
                 v-for="item in items"

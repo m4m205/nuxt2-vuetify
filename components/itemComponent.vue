@@ -8,19 +8,33 @@
             hide-details
             class="shrink mr-2 mt-0"
           ></v-checkbox>
-          <input
-            :class="{ 'text-decoration-line-through': itemObj.completed }"
-            :value="itemObj.name"
-            @change="
-              (e) => {
-                $emit('inputValue', e.target.value), $refs.textInput.blur();
-              }
-            "
-            ref="textInput"
-            type="text"
-          />
+          <v-input>
+            <input
+              :class="{ 'text-decoration-line-through': itemObj.completed }"
+              :value="itemObj.name"
+              @change="
+                (e) => {
+                  $emit('inputValue', e.target.value), $refs.textInput.blur();
+                }
+              "
+              ref="textInput"
+              type="text"
+            />
+          </v-input>
         </v-row> -->
         <v-row align="center" class="ml-2">
+          <v-checkbox
+            v-model="itemObj.completed"
+            hide-details
+            class="shrink mr-2 mt-0"
+          ></v-checkbox>
+          <v-text-field
+            :class="{ 'line-through': itemObj.completed }"
+            :value="itemObj.name"
+          ></v-text-field>
+        </v-row>
+
+        <!-- <v-row align="center" class="ml-2">
           <v-checkbox
             v-model="itemObj.completed"
             hide-details
@@ -29,7 +43,7 @@
           <span :class="{ 'line-through': itemObj.completed }">{{
             itemObj.name
           }}</span>
-        </v-row>
+        </v-row> -->
 
         <v-spacer></v-spacer>
         <v-divider vertical></v-divider>
