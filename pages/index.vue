@@ -99,12 +99,17 @@
                 >Create to-do here</v-text-field
               >
             </v-form>
-            <item-component
-              v-for="item in items"
-              :item-obj="item"
-              @delete-item="PrepareDeleteItem"
-            >
-            </item-component>
+            <div v-if="items.length">
+              <item-component
+                v-for="item in items"
+                :item-obj="item"
+                @delete-item="PrepareDeleteItem"
+              >
+              </item-component>
+            </div>
+            <div v-else class="text-center">
+              <p>Empty list!</p>
+            </div>
           </v-col>
         </v-row>
       </v-card>
