@@ -24,29 +24,19 @@
         </v-row> -->
         <v-row align="center" class="ml-2">
           <v-checkbox
-            v-model="itemObj.completed"
+            v-model="isCompleted"
+            color="success"
             hide-details
             class="shrink mr-2 mt-0"
+            @change="updateItem({ keyName: 'completed' })"
           ></v-checkbox>
           <v-text-field
-            :class="{ 'line-through': itemObj.completed }"
+            :class="{ 'line-through': isCompleted }"
             v-model="inputText"
-            v-on:keyup.enter="updateItem"
+            v-on:keyup.enter="updateItem({ keyName: 'name' })"
             :loading="isLoading"
           ></v-text-field>
         </v-row>
-
-        <!-- <v-row align="center" class="ml-2">
-          <v-checkbox
-            v-model="itemObj.completed"
-            hide-details
-            class="shrink mr-2 mt-0"
-          ></v-checkbox>
-          <span :class="{ 'line-through': itemObj.completed }">{{
-            itemObj.name
-          }}</span>
-        </v-row> -->
-
         <v-spacer></v-spacer>
         <v-divider vertical></v-divider>
         <div>
@@ -90,21 +80,26 @@ export default {
   data() {
     return {
       auditDialog: false,
+      isCompleted: undefined,
       inputText: "",
       isLoading: false,
     };
   },
   mounted() {
     this.inputText = this.itemObj.name;
+    this.isCompleted = this.itemObj.completed;
   },
   methods: {
-    async updateItem() {
-      if (this.inputText.trim() === this.itemObj.name) return;
+    async updateItem({ keyName }) {
+      if (keyName === "name" && this.inputText.trim() === this.itemObj.name)
+        return;
       try {
         this.isLoading = true;
+        const calledFromValue =
+          keyName === "name" ? this.inputText : this.isCompleted;
         await this.$axios.$patch(
           `https://todo-api.niveaubepaling.nl/list/${this.listId}/${this.itemObj.id}`,
-          { name: this.inputText }
+          { [keyName]: calledFromValue }
         );
       } catch (e) {
         console.log("error from update error API", e);
