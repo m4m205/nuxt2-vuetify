@@ -1,33 +1,67 @@
 <template>
   <div>
     <v-card class="pa-2 mb-2" shaped>
-      <p>{{ itemObj.name }}</p>
-      <p>completed: {{ itemObj.completed }}</p>
+      <v-card-actions>
+        <!-- <v-row align="center" class="ml-2">
+          <v-checkbox
+            v-model="itemObj.completed"
+            hide-details
+            class="shrink mr-2 mt-0"
+          ></v-checkbox>
+          <input
+            :class="{ 'text-decoration-line-through': itemObj.completed }"
+            :value="itemObj.name"
+            @change="
+              (e) => {
+                $emit('inputValue', e.target.value), $refs.textInput.blur();
+              }
+            "
+            ref="textInput"
+            type="text"
+          />
+        </v-row> -->
+        <v-row align="center" class="ml-2">
+          <v-checkbox
+            v-model="itemObj.completed"
+            hide-details
+            class="shrink mr-2 mt-0"
+          ></v-checkbox>
+          <span :class="{ 'line-through': itemObj.completed }">{{
+            itemObj.name
+          }}</span>
+        </v-row>
 
-      <v-dialog v-model="dialog" max-width="290">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn icon @click.stop="" v-bind="attrs" v-on="on">
-            <v-icon color="blue">mdi-information-outline</v-icon>
+        <v-spacer></v-spacer>
+        <v-divider vertical></v-divider>
+        <div>
+          <v-dialog v-model="auditDialog" max-width="290">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon @click.stop="" v-bind="attrs" v-on="on">
+                <v-icon color="blue">mdi-information-outline</v-icon>
+              </v-btn>
+            </template>
+            <v-card>
+              <v-card-title class="text-h5"> Audit trail details </v-card-title>
+              <v-card-text>
+                <p>created at :{{ formatCreatedDate }}</p>
+                <p>updated at : {{ formatUpdatedDate }}</p>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="green darken-1" text @click="auditDialog = false">
+                  Okay!
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-btn icon @click.stop="$emit('delete-item', itemObj.id)">
+            <v-icon color="grey darken-1">mdi-pencil</v-icon>
           </v-btn>
-        </template>
-        <v-card>
-          <v-card-title class="text-h5"> Audit trail details </v-card-title>
-          <v-card-text>
-            <p>created at :{{ formatCreatedDate }}</p>
-            <p>updated at : {{ formatUpdatedDate }}</p>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="dialog = false">
-              Okay!
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
-      <v-btn icon @click.stop="$emit('delete-item', itemObj.id)">
-        <v-icon color="red">mdi-delete</v-icon>
-      </v-btn>
+          <v-btn icon @click.stop="$emit('delete-item', itemObj.id)">
+            <v-icon color="red">mdi-delete</v-icon>
+          </v-btn>
+        </div>
+      </v-card-actions>
     </v-card>
   </div>
 </template>
@@ -39,7 +73,7 @@ export default {
   },
   data() {
     return {
-      dialog: false,
+      auditDialog: false,
     };
   },
   computed: {
@@ -58,3 +92,8 @@ export default {
   },
 };
 </script>
+<style>
+.line-through {
+  text-decoration: line-through;
+}
+</style>
