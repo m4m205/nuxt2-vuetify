@@ -96,17 +96,13 @@
               v-on:keyup.enter="createItem"
             ></v-text-field>
             <!-- </v-form> -->
-            <div v-if="items.length">
-              <item-component
-                v-for="item in items"
-                :item-obj="item"
-                @delete-item="PrepareDeleteItem"
-              >
-              </item-component>
-            </div>
-            <div v-else class="text-center">
-              <p>Empty list!</p>
-            </div>
+            <item-component
+              v-for="item in items"
+              :item-obj="item"
+              :list-id="selectedListId"
+              @delete-item="PrepareDeleteItem"
+            >
+            </item-component>
           </v-col>
         </v-row>
       </v-card>
@@ -206,9 +202,10 @@ export default {
     },
     async createList() {
       try {
-        await this.$axios.$post(this.baseURL, {
+        const res = await this.$axios.$post(this.baseURL, {
           name: this.listInput,
         });
+        this.selectedListId = res.data.id;
         this.listInput = "";
         this.showSnackbar = true;
         this.$fetch();
@@ -261,6 +258,8 @@ export default {
       this.showListOverlay = true;
     },
     handleListClick(id) {
+      if (this.selectedListId == id) return;
+      this.items = [];
       this.selectedListId = id;
       this.fetchItems(id);
     },

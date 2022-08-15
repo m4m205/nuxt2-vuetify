@@ -30,7 +30,9 @@
           ></v-checkbox>
           <v-text-field
             :class="{ 'line-through': itemObj.completed }"
-            :value="itemObj.name"
+            v-model="inputText"
+            v-on:keyup.enter="updateItem"
+            :loading="isLoading"
           ></v-text-field>
         </v-row>
 
@@ -83,12 +85,33 @@
 export default {
   props: {
     itemObj: Object,
-    isSelected: Boolean,
+    listId: Number,
   },
   data() {
     return {
       auditDialog: false,
+      inputText: "",
+      isLoading: false,
     };
+  },
+  mounted() {
+    this.inputText = this.itemObj.name;
+  },
+  methods: {
+    async updateItem() {
+      if (this.inputText.trim() === this.itemObj.name) return;
+      try {
+        this.isLoading = true;
+        await this.$axios.$patch(
+          `https://todo-api.niveaubepaling.nl/list/${this.listId}/${this.itemObj.id}`,
+          { name: this.inputText }
+        );
+      } catch (e) {
+        console.log("error from update error API", e);
+      } finally {
+        setTimeout(() => (this.isLoading = false), 1000);
+      }
+    },
   },
   computed: {
     formatCreatedDate: function () {
