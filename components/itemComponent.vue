@@ -60,9 +60,6 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <v-btn icon @click.stop="">
-            <v-icon color="grey darken-1">mdi-pencil</v-icon>
-          </v-btn>
           <v-btn icon @click.stop="$emit('delete-item', itemObj.id)">
             <v-icon color="red">mdi-delete</v-icon>
           </v-btn>
