@@ -72,6 +72,7 @@
               v-model.trim="listInput"
               :error-messages="[]"
               v-on:keyup.enter="createList"
+              :loading="listCallIsLoading"
             ></v-text-field>
             <!-- </v-form> -->
             <list-component
@@ -94,6 +95,7 @@
               v-model.trim="itemInput"
               :error-messages="[]"
               v-on:keyup.enter="createItem"
+              :loading="itemCallIsLoading"
             ></v-text-field>
             <!-- </v-form> -->
             <item-component
@@ -180,6 +182,8 @@ export default {
       itemToBeDeletedId: null,
       listInput: "",
       itemInput: "",
+      listCallIsLoading: false,
+      itemCallIsLoading: false,
       showSnackbar: false,
       showItemOverlay: false,
       showListOverlay: false,
@@ -202,6 +206,7 @@ export default {
     },
     async createList() {
       try {
+        this.listCallIsLoading = true;
         const res = await this.$axios.$post(this.baseURL, {
           name: this.listInput,
         });
@@ -211,18 +216,23 @@ export default {
         this.$fetch();
       } catch (e) {
         console.log("error from create list", e);
+      } finally {
+        setTimeout(() => (this.listCallIsLoading = false), 1000);
       }
     },
     async createItem() {
       try {
+        this.itemCallIsLoading = true;
         await this.$axios.$post(`${this.baseURL}/${this.selectedListId}`, {
           name: this.itemInput,
         });
         this.itemInput = "";
-        this.showSnackbar = false;
+        this.showSnackbar = true;
         this.$fetch();
       } catch (e) {
         console.log("error from create item", e);
+      } finally {
+        setTimeout(() => (this.itemCallIsLoading = false), 1000);
       }
     },
     async deleteList() {
