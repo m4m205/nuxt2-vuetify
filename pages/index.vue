@@ -101,8 +101,9 @@
             <item-component
               v-for="item in items"
               :item-obj="item"
-              :list-id="selectedListId"
+              :is-loading="updateItemIsLoadingId === item.id"
               @delete-item="PrepareDeleteItem"
+              @update-item="updateItem"
             >
             </item-component>
           </v-col>
@@ -184,6 +185,7 @@ export default {
       itemInput: "",
       listCallIsLoading: false,
       itemCallIsLoading: false,
+      updateItemIsLoadingId: null,
       showSnackbar: false,
       showItemOverlay: false,
       showListOverlay: false,
@@ -266,6 +268,20 @@ export default {
     PrepareDeleteList(id) {
       this.listToBeDeletedId = id;
       this.showListOverlay = true;
+    },
+    async updateItem({ id, newValue }) {
+      try {
+        this.updateItemIsLoadingId = id;
+        await this.$axios.$patch(
+          `${this.baseURL}/${this.selectedListId}/${id}`,
+          newValue
+        );
+        this.fetchItems(this.selectedListId);
+      } catch (e) {
+        console.log("error from update error API", e);
+      } finally {
+        setTimeout(() => (this.updateItemIsLoadingId = null), 1000);
+      }
     },
     handleListClick(id) {
       if (this.selectedListId == id) return;

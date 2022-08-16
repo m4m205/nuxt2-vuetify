@@ -28,12 +28,12 @@
             color="success"
             hide-details
             class="shrink mr-2 mt-0"
-            @change="updateItem({ keyName: 'completed' })"
+            @change="updateCompleted"
           ></v-checkbox>
           <v-text-field
             :class="{ 'line-through': isCompleted }"
             v-model="inputText"
-            v-on:keyup.enter="updateItem({ keyName: 'name' })"
+            v-on:keyup.enter="updateName"
             :loading="isLoading"
           ></v-text-field>
         </v-row>
@@ -72,14 +72,13 @@
 export default {
   props: {
     itemObj: Object,
-    listId: Number,
+    isLoading: Boolean,
   },
   data() {
     return {
       auditDialog: false,
       isCompleted: undefined,
       inputText: "",
-      isLoading: false,
     };
   },
   mounted() {
@@ -87,22 +86,25 @@ export default {
     this.isCompleted = this.itemObj.completed;
   },
   methods: {
-    async updateItem({ keyName }) {
-      if (keyName === "name" && this.inputText.trim() === this.itemObj.name)
-        return;
-      try {
-        this.isLoading = true;
-        const calledFromValue =
-          keyName === "name" ? this.inputText : this.isCompleted;
-        await this.$axios.$patch(
-          `https://todo-api.niveaubepaling.nl/list/${this.listId}/${this.itemObj.id}`,
-          { [keyName]: calledFromValue }
-        );
-      } catch (e) {
-        console.log("error from update error API", e);
-      } finally {
-        setTimeout(() => (this.isLoading = false), 1000);
-      }
+    updateItem(newValue) {
+      const obj = {
+        id: this.itemObj.id,
+        newValue: newValue,
+      };
+      this.$emit("update-item", obj);
+    },
+    updateName() {
+      if (this.inputText.trim() === this.itemObj.name) return;
+      const changedValue = {
+        name: this.inputText.trim(),
+      };
+      this.updateItem(changedValue);
+    },
+    updateCompleted() {
+      const changedValue = {
+        completed: this.isCompleted,
+      };
+      this.updateItem(changedValue);
     },
   },
   computed: {
