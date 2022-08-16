@@ -2,26 +2,6 @@
   <div>
     <v-card class="pa-2 mb-2" shaped>
       <v-card-actions>
-        <!-- <v-row align="center" class="ml-2">
-          <v-checkbox
-            v-model="itemObj.completed"
-            hide-details
-            class="shrink mr-2 mt-0"
-          ></v-checkbox>
-          <v-input>
-            <input
-              :class="{ 'text-decoration-line-through': itemObj.completed }"
-              :value="itemObj.name"
-              @change="
-                (e) => {
-                  $emit('inputValue', e.target.value), $refs.textInput.blur();
-                }
-              "
-              ref="textInput"
-              type="text"
-            />
-          </v-input>
-        </v-row> -->
         <v-row align="center" class="ml-2">
           <v-checkbox
             v-model="isCompleted"
@@ -35,6 +15,9 @@
             v-model="inputText"
             v-on:keyup.enter="updateName"
             :loading="isLoading"
+            hide-details
+            flat
+            solo
           ></v-text-field>
         </v-row>
         <v-spacer></v-spacer>
