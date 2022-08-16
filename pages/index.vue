@@ -9,13 +9,13 @@
         <v-row justify="center" align="start">
           <v-col cols="12" xs="12" sm="4" md="4">
             <v-skeleton-loader
-              v-bind="attrs"
+              elevation="2"
               type="list-item-avatar, divider, card-heading, card-heading, card-heading"
             ></v-skeleton-loader>
           </v-col>
           <v-col cols="12" xs="12" sm="8" md="8">
             <v-skeleton-loader
-              v-bind="attrs"
+              elevation="2"
               type="list-item-avatar, divider, card-heading, card-heading, card-heading"
             ></v-skeleton-loader>
           </v-col>
@@ -114,76 +114,35 @@
         </v-row>
       </v-card>
     </v-col>
-    <v-row justify="center">
-      <v-dialog v-model="showItemOverlay" persistent max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Confirmation </v-card-title>
-          <v-card-text
-            >Are you sure you want to permanently delete this item?</v-card-text
-          >
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="
-                () => ((showItemOverlay = false), (itemToBeDeletedId = null))
-              "
-            >
-              No
-            </v-btn>
-            <v-btn
-              color="red darken-1"
-              text
-              @click="[deleteItem(), (showItemOverlay = false)]"
-            >
-              Yes
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <v-row justify="center">
-      <v-dialog v-model="showListOverlay" persistent max-width="290">
-        <v-card>
-          <v-card-title class="text-h5"> Confirmation </v-card-title>
-          <v-card-text
-            >Are you sure you want to permanently delete this list?</v-card-text
-          >
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="
-                () => ((showListOverlay = false), (listToBeDeletedId = null))
-              "
-            >
-              No
-            </v-btn>
-            <v-btn
-              color="red darken-1"
-              text
-              @click="[deleteList(), (showListOverlay = false)]"
-            >
-              Yes
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+    <confirmation-message
+      :message="itemName"
+      :show-overlay="showItemOverlay"
+      @negative-clicked="
+        () => ((showItemOverlay = false), (itemToBeDeletedId = null))
+      "
+      @positive-clicked="[deleteItem(), (showItemOverlay = false)]"
+    >
+    </confirmation-message>
+    <confirmation-message
+      :message="listName"
+      :show-overlay="showListOverlay"
+      @negative-clicked="
+        () => ((showListOverlay = false), (listToBeDeletedId = null))
+      "
+      @positive-clicked="[deleteList(), (showListOverlay = false)]"
+    >
+    </confirmation-message>
   </v-row>
 </template>
 <script>
 export default {
-  props: ["foo"],
   data() {
     return {
       baseURL: "https://todo-api.niveaubepaling.nl/list",
       lists: [],
       items: [],
       selectedListId: null,
-      litsToBeDeletedId: null,
+      listToBeDeletedId: null,
       itemToBeDeletedId: null,
       listInput: "",
       itemInput: "",
@@ -292,6 +251,18 @@ export default {
       this.items = [];
       this.selectedListId = id;
       this.fetchItems(id);
+    },
+  },
+  computed: {
+    listName() {
+      if (!this.listToBeDeletedId) return null;
+      let msg = this.lists.find((list) => list.id == this.listToBeDeletedId);
+      return msg.name;
+    },
+    itemName() {
+      if (!this.itemToBeDeletedId) return null;
+      let msg = this.items.find((item) => item.id == this.itemToBeDeletedId);
+      return msg.name;
     },
   },
 };

@@ -22,7 +22,7 @@
   padding: 24px;
   gap: 1rem;
   grid-template-areas: "stack";
-  filter: drop-shadow(0 0 0.5rem black);
+  filter: drop-shadow(0 0 0.7rem rgb(105, 89, 246));
 }
 
 .about > * {
