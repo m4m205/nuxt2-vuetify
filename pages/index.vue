@@ -68,20 +68,16 @@
           <!-- lists start  -->
           <v-col cols="12" xs="12" sm="4" md="4">
             <v-form @submit.prevent="">
-              <!-- <form @submit.prevent=""> -->
               <v-text-field
                 class="mb-7"
                 label="Add new list"
                 prepend-icon="mdi-plus"
-                append-icon="mdi-check"
                 hide-details="auto"
-                @click:append="createList"
                 v-model.trim="listInput"
                 :error-messages="[]"
                 v-on:keyup.enter="createList"
                 :loading="listCallIsLoading"
               ></v-text-field>
-              <!-- </form> -->
             </v-form>
             <list-component
               v-for="list in lists"
@@ -95,20 +91,16 @@
           <!-- items start  -->
           <v-col cols="12" xs="12" sm="8" md="8">
             <v-form @submit.prevent="">
-              <!-- <form @submit.prevent=""> -->
               <v-text-field
                 class="mb-7"
                 label="Add new item"
                 prepend-icon="mdi-plus"
-                append-icon="mdi-check"
                 hide-details="auto"
-                @click:append="createItem"
                 v-model.trim="itemInput"
                 :error-messages="[]"
                 v-on:keyup.enter="createItem"
                 :loading="itemCallIsLoading"
               ></v-text-field>
-              <!-- </form> -->
             </v-form>
             <item-component
               v-for="item in items"

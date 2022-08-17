@@ -10,15 +10,17 @@
             class="shrink mr-2 mt-0"
             @change="updateCompleted"
           ></v-checkbox>
-          <v-text-field
-            :class="{ 'text-decoration-line-through': isCompleted }"
-            v-model="inputText"
-            v-on:keyup.enter="updateName"
-            :loading="isLoading"
-            hide-details
-            flat
-            solo
-          ></v-text-field>
+          <v-form @submit.prevent="">
+            <v-text-field
+              :class="{ 'text-decoration-line-through': isCompleted }"
+              v-model.trim="inputText"
+              v-on:keyup.enter="updateName"
+              :loading="isLoading"
+              hide-details
+              flat
+              solo
+            ></v-text-field>
+          </v-form>
         </v-row>
         <v-spacer></v-spacer>
         <v-divider vertical></v-divider>
@@ -77,9 +79,9 @@ export default {
       this.$emit("update-item", obj);
     },
     updateName() {
-      if (this.inputText.trim() === this.itemObj.name) return;
+      if (this.inputText === this.itemObj.name) return;
       const changedValue = {
-        name: this.inputText.trim(),
+        name: this.inputText,
       };
       this.updateItem(changedValue);
     },
