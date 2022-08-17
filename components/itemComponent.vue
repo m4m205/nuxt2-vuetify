@@ -11,7 +11,7 @@
             @change="updateCompleted"
           ></v-checkbox>
           <v-text-field
-            :class="{ 'line-through': isCompleted }"
+            :class="{ 'text-decoration-line-through': isCompleted }"
             v-model="inputText"
             v-on:keyup.enter="updateName"
             :loading="isLoading"
@@ -106,8 +106,3 @@ export default {
   },
 };
 </script>
-<style>
-.line-through {
-  text-decoration: line-through;
-}
-</style>
