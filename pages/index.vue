@@ -64,9 +64,9 @@
             </v-btn>
           </template>
         </v-snackbar>
-        <v-row justify="center" align="start">
+        <v-row justify="center" align="start" class="view-min-height">
           <!-- lists start  -->
-          <v-col id="lists-section" cols="12" xs="12" sm="4" md="4">
+          <v-col cols="12" xs="12" sm="4" md="4">
             <!-- <v-form v-model="formInput" class="mb-7"> -->
             <v-text-field
               class="mb-7"
@@ -91,7 +91,7 @@
             </list-component>
           </v-col>
           <!-- items start  -->
-          <v-col id="items-section" cols="12" xs="12" sm="8" md="8">
+          <v-col cols="12" xs="12" sm="8" md="8">
             <!-- <v-form class="mb-7"> -->
             <v-text-field
               class="mb-7"
@@ -273,12 +273,7 @@ export default {
 </script>
 
 <style>
-#lists-section {
-  /* background-color: aqua; */
-  min-height: 300px;
-}
-#items-section {
-  /* background-color: rgb(255, 0, 200); */
-  min-height: 300px;
+.view-min-height {
+  min-height: 75vmin;
 }
 </style>
