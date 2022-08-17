@@ -41,7 +41,11 @@
         </v-row>
       </v-card>
       <!-- succuss view -->
-      <v-card v-else class="pa-5 d-flex justify-center outlined tile">
+      <v-card
+        v-else
+        class="pa-5 d-flex justify-center outlined tile"
+        :color="$vuetify.theme.dark ? 'grey darken-3' : 'grey lighten-3'"
+      >
         <v-snackbar
           v-model="showSnackbar"
           timeout="5000"

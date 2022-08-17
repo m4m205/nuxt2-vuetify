@@ -81,16 +81,6 @@ export default {
         },
         {
           icon: "mdi-chart-bubble",
-          title: "Inspire",
-          to: "/inspire",
-        },
-        {
-          icon: "mdi-chart-bubble",
-          title: "old",
-          to: "/indexOld",
-        },
-        {
-          icon: "mdi-chart-bubble",
           title: "about",
           to: "/about",
         },
@@ -100,9 +90,6 @@ export default {
       rightDrawer: false,
       title: "Vuetify.js",
     };
-  },
-  created() {
-    this.$vuetify.theme.dark = false;
   },
 };
 </script>

@@ -1,6 +1,9 @@
 <template>
   <div class="all-page">
-    <div class="d-grid p-3 about">
+    <div
+      class="d-grid p-3 about"
+      :class="$vuetify.theme.dark ? 'shadow-dark' : 'shadow-light'"
+    >
       <div class="my-name">
         <h1>Mahmoud</h1>
         <h1>Almorahlee</h1>
@@ -22,7 +25,13 @@
   padding: 24px;
   gap: 1rem;
   grid-template-areas: "stack";
-  filter: drop-shadow(0 0 0.7rem rgb(105, 89, 246));
+}
+
+.shadow-dark {
+  filter: drop-shadow(0 0 0.7rem rgb(230, 230, 83));
+}
+.shadow-light {
+  filter: drop-shadow(0 0 0.7rem black);
 }
 
 .about > * {
