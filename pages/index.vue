@@ -172,17 +172,21 @@ export default {
   fetchOnServer: false,
   fetchKey: "lists-data",
   methods: {
-    async fetchItems(id) {
+    async fetchItems(id, changeList) {
       try {
-        this.fetchingItems = true;
+        if (changeList) {
+          this.fetchingItems = true;
+        }
         const res = await this.$axios.$get(`${this.baseURL}/${id}`);
         this.items = res.data.items;
       } catch (e) {
         console.log("error from fetch items", e);
       } finally {
-        setTimeout(() => {
-          this.fetchingItems = false;
-        }, 400);
+        if (changeList) {
+          setTimeout(() => {
+            this.fetchingItems = false;
+          }, 400);
+        }
       }
     },
     async createList() {
@@ -266,7 +270,7 @@ export default {
       if (this.selectedListId == id) return;
       this.items = [];
       this.selectedListId = id;
-      this.fetchItems(id);
+      this.fetchItems(id, true);
     },
   },
   computed: {
