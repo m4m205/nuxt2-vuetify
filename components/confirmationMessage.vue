@@ -4,8 +4,8 @@
       <v-card>
         <v-card-title class="text-h5"> Confirmation </v-card-title>
         <v-card-text
-          >Are you sure you want to permanently delete this (
-          {{ message }} )?</v-card-text
+          >Are you sure you want to permanently delete
+          {{ message }}?</v-card-text
         >
         <v-card-actions>
           <v-spacer></v-spacer>

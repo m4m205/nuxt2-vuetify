@@ -88,8 +88,14 @@
             >
             </list-component>
           </v-col>
+          <v-col v-if="fetchingItems" cols="12" xs="12" sm="8" md="8">
+            <v-skeleton-loader
+              elevation="2"
+              type="list-item-avatar, divider, card-heading, card-heading, card-heading"
+            ></v-skeleton-loader>
+          </v-col>
           <!-- items start  -->
-          <v-col cols="12" xs="12" sm="8" md="8">
+          <v-col v-else cols="12" xs="12" sm="8" md="8">
             <v-form @submit.prevent="">
               <v-text-field
                 class="mb-7"
@@ -152,6 +158,7 @@ export default {
       showSnackbar: false,
       showItemOverlay: false,
       showListOverlay: false,
+      fetchingItems: false,
     };
   },
   async fetch() {
@@ -166,8 +173,17 @@ export default {
   fetchKey: "lists-data",
   methods: {
     async fetchItems(id) {
-      const res = await this.$axios.$get(`${this.baseURL}/${id}`);
-      this.items = res.data.items;
+      try {
+        this.fetchingItems = true;
+        const res = await this.$axios.$get(`${this.baseURL}/${id}`);
+        this.items = res.data.items;
+      } catch (e) {
+        console.log("error from fetch items", e);
+      } finally {
+        setTimeout(() => {
+          this.fetchingItems = false;
+        }, 400);
+      }
     },
     async createList() {
       try {
@@ -257,12 +273,12 @@ export default {
     listName() {
       if (!this.listToBeDeletedId) return null;
       let msg = this.lists.find((list) => list.id == this.listToBeDeletedId);
-      return msg.name;
+      return `( ${msg.name} ) list`;
     },
     itemName() {
       if (!this.itemToBeDeletedId) return null;
       let msg = this.items.find((item) => item.id == this.itemToBeDeletedId);
-      return msg.name;
+      return `( ${msg.name} ) item`;
     },
   },
 };
