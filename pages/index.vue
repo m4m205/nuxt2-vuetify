@@ -144,7 +144,9 @@
 export default {
   data() {
     return {
-      baseURL: "https://todo-api.niveaubepaling.nl/list",
+      // baseURL: "https://todo-api.niveaubepaling.nl/list",
+      // baseURL: "http://localhost:8000/api/list",
+      baseURL: "https://laravelfirstone.azurewebsites.net/api/list",
       lists: [],
       items: [],
       selectedListId: null,
@@ -173,6 +175,7 @@ export default {
   fetchKey: "lists-data",
   methods: {
     async fetchItems(id, changeList) {
+      this.items = []; // todo : delete this line and fix the component to update correctly
       try {
         if (changeList) {
           this.fetchingItems = true;
