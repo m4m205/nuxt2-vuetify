@@ -171,7 +171,7 @@ export default {
       ? this.selectedListId
       : res.data[0]?.id;
     if(this.selectedListId) {
-      this.fetchItems(this.selectedListId);
+      this.fetchItems(this.selectedListId, true);
     } else {
       this.items = [];
     }
@@ -220,7 +220,7 @@ export default {
         });
         this.itemInput = "";
         this.showSnackbar = true;
-        this.$fetch();
+        this.fetchItems(this.selectedListId);
       } catch (e) {
         console.log("error from create item", e);
       } finally {
