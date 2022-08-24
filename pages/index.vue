@@ -213,6 +213,7 @@ export default {
       }
     },
     async createItem() {
+      if(!this.selectedListId) return;
       try {
         this.itemCallIsLoading = true;
         await this.$axios.$post(`${this.baseURL}/${this.selectedListId}`, {

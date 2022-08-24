@@ -100,16 +100,12 @@ export default {
   },
   computed: {
     formatCreatedDate: function () {
-      return this.itemObj.created_at.substring(
-        0,
-        this.itemObj.created_at.indexOf(".")
-      );
+      let localDate = new Date(this.itemObj.created_at);
+      return localDate.toString();
     },
     formatUpdatedDate: function () {
-      return this.itemObj.updated_at.substring(
-        0,
-        this.itemObj.updated_at.indexOf(".")
-      );
+      let localDate = new Date(this.itemObj.updated_at);
+      return localDate.toString();
     },
   },
 };
