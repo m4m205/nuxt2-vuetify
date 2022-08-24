@@ -146,8 +146,8 @@ export default {
   data() {
     return {
       // baseURL: "https://todo-api.niveaubepaling.nl/list",
-      // baseURL: "http://localhost:8000/api/list",
-      baseURL: "https://laravelfirstone.azurewebsites.net/api/list",
+      baseURL: "http://localhost:8000/api/list",
+      // baseURL: "https://laravelfirstone.azurewebsites.net/api/list",
       lists: [],
       items: [],
       selectedListId: null,
@@ -169,8 +169,12 @@ export default {
     this.lists = res.data;
     this.selectedListId = this.selectedListId
       ? this.selectedListId
-      : res.data[0].id;
-    this.fetchItems(this.selectedListId);
+      : res.data[0]?.id;
+    if(this.selectedListId) {
+      this.fetchItems(this.selectedListId);
+    } else {
+      this.items = [];
+    }
   },
   fetchOnServer: false,
   fetchKey: "lists-data",
