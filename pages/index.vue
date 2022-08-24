@@ -146,8 +146,8 @@ export default {
   data() {
     return {
       // baseURL: "https://todo-api.niveaubepaling.nl/list",
-      baseURL: "http://localhost:8000/api/list",
-      // baseURL: "https://laravelfirstone.azurewebsites.net/api/list",
+      // baseURL: "http://localhost:8000/api/list",
+      baseURL: "https://laravelfirstone.azurewebsites.net/api/list",
       lists: [],
       items: [],
       selectedListId: null,
