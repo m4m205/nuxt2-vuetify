@@ -48,9 +48,10 @@
       >
         <v-snackbar
           v-model="showSnackbar"
-          timeout="5000"
+          timeout="4000"
           color="green accent-4"
           elevation="24"
+          top
         >
           Successfully created!
           <template v-slot:action="{ attrs }">
@@ -175,7 +176,6 @@ export default {
   fetchKey: "lists-data",
   methods: {
     async fetchItems(id, changeList) {
-      this.items = []; // todo : delete this line and fix the component to update correctly
       try {
         if (changeList) {
           this.fetchingItems = true;
@@ -188,7 +188,7 @@ export default {
         if (changeList) {
           setTimeout(() => {
             this.fetchingItems = false;
-          }, 400);
+          }, 100);
         }
       }
     },
@@ -266,7 +266,7 @@ export default {
       } catch (e) {
         console.log("error from update error API", e);
       } finally {
-        setTimeout(() => (this.updateItemIsLoadingId = null), 1000);
+        setTimeout(() => (this.updateItemIsLoadingId = null), 500);
       }
     },
     handleListClick(id) {

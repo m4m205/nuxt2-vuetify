@@ -69,6 +69,12 @@ export default {
   mounted() {
     this.inputText = this.itemObj.name;
     this.isCompleted = this.itemObj.completed;
+    },
+  watch: { 
+    itemObj: function(newVal, oldVal) {
+        this.isCompleted = this.itemObj.completed;
+        this.inputText = this.itemObj.name;
+    }
   },
   methods: {
     updateItem(newValue) {
